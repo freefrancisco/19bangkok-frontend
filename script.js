@@ -67,9 +67,9 @@ function rotateTile(n,m) {
 		t = t + 0.01;
 		var xBase=n*(10+87);
 		var yBase=m*(10+61);
-		var x=xBase+87/2+(-87/2)*Math.cos(Math.PI*2*t);
+		var x=xBase+87/2+(-87/2)*Math.abs(Math.cos(Math.PI*t));
 		var y=yBase;
-		var width=87/2*Math.cos(Math.PI*2*t);
+		var width=87*Math.abs(Math.cos(Math.PI*t));
 		var height=61;
 		ctx.fillStyle = "#ffffff";
 		ctx.fillRect(xBase,yBase,87,61);
