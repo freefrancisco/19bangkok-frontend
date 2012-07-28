@@ -12,6 +12,8 @@ function drawThing(x,y,img) {
 var LAND=0;
 var PARK=1;
 var WATER=2;
+var good = ["You made a new friend!! You just doubled your money.", "You gota great massage!!! You just doubled your money!", "You had a great dinner with friend!!! Your just doubled our money."];
+var bad = ["You got robbed by a tranny hooker. You just lost a quarter of your money!!", "You got caught with dope. You just lost half your money!!", "You got a stomach bug. You just lost half your money."];
 
 var map=[[1,2,0,0,0,2,0,0,0,0],
 		 [0,0,2,0,2,0,0,0,0,0],
@@ -47,30 +49,56 @@ function blowupTile(n,m,r) {
 	if(targetN < 0) {
 		targetN=0;
 	}
-	else if(targetN > n-r) {
-		targetN=n-r;
+	else if(targetN >= 10-r) {
+		targetN=10-r;
 	}
 	if(targetM < 0) {
 		targetM=0;
 	}
-	else if(targetM > m-r) {
-		targetM=m-r;
+	else if(targetM >= 10-r) {
+		targetM=10-r;
 	}
 	
 	var i=setInterval(function() {
 		var curN=n + t*(targetN-n);
 		var curM=m + t*(targetM-m);
 		ctx.fillStyle = "#ccc";
-		ctx.fillRect(curN*(10+87),curM*(10+61),87+(r*87-87)*t,61+(r*61-61)*t);
+		ctx.fillRect(10+curN*(10+87),10+curM*(10+61),87+(r*87-87)*t,61+(r*61-61)*t);
 		t += .01;
 		if(t>=1) {
 			$("#overlay").css("background-color","#eee");
 			$("#overlay").css("position","absolute");
-			$("#overlay").css("left",curN*(10+87) + "px");
-			$("#overlay").css("top",curM*(10+61) + "px");
+			$("#overlay").css("border","1px black solid");
+			$("#overlay").css("left",16+curN*(10+87) + "px");
+			$("#overlay").css("top",16+curM*(10+61) + "px");
 			$("#overlay").css("width",r*87  + "px");
 			$("#overlay").css("height",r*61 + "px");
-			$("#overlay").html("<h1>Prostitutes</h1>Ahhh!<br/>Bet on blah balh.");
+			var rnd=Math.random();
+			if(rnd < 0.5) {
+				rnd=Math.random();
+				if(rnd<.33) {
+					$("#overlay").html(good[0]);
+				}
+				else if(rnd<.66) {
+					$("#overlay").html(good[1]);
+					
+				}
+				else {
+					$("#overlay").html(good[2]);	
+				}
+			}
+			else {
+				rnd=Math.random();
+				if(rnd<.33) {
+					$("#overlay").html(bad[0]);
+				}
+				else if(rnd<.66) {
+					$("#overlay").html(bad[1]);
+				}
+				else {
+					$("#overlay").html(bad[2]);
+				}	
+			}
 			$("#overlay").show();
 			$("#overlay").click(function() {
 				$("#overlay").hide();
@@ -150,7 +178,7 @@ function rotateTile(n,m,dir) {
 		
 		if(t >= 1) {
 			clearInterval(i);
-			if(true) {
+			if(Math.random() > 0.5) {
 				blowupTile(n,m,4);
 			}
 			else {
